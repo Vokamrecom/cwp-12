@@ -1,22 +1,49 @@
 const Turtle = require('./turtle');
 const Weapon = require('./weapon');
 const Pizza = require('./pizza');
+const config = require('../config.json');
 
 module.exports = (Sequelize, config) => {
-    // TODO: создание объекта для подключения к базе - sequelize
+    //todo: create object for connecting to db-sequelize
+    const sequelize = new Sequelize(config.db,
+        config.login,
+        config.password,
+        {
+            host: config.host,
+            dialect: config.dialect,
+            logging: false
+        });
+    sequelize.authenticate()
+        .then(() => {
+            console.log('Success');
+        }).catch((err) => {
+        console.log('error in connecting', err);
+    })
 
     const turtles = Turtle(Sequelize, sequelize);
     const weapons = Weapon(Sequelize, sequelize);
     const pizzas = Pizza(Sequelize, sequelize);
 
-    // TODO: создание связей между таблицами
+    //todo: creating relations between tables
+    turtles.belongsTo(pizzas, {
+        foreignKey: 'firstFavouritePizzaId',
+        as: 'firstFavouritePizza'
+    });
+    turtles.belongsTo(pizzas, {
+        foreignKey: 'secondFavouritePizzaId',
+        as: 'secondFavouritePizza'
+    });
+    turtles.belongsTo(weapons, {
+        foreignKey: 'weaponId',
+        as: 'weapon'
+    })
 
-    return {
+    return{
         turtles,
         weapons,
         pizzas,
 
         sequelize: sequelize,
-        Sequelize: Sequelize,
+        Sequelize: Sequelize
     };
 };
