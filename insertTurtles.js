@@ -28,7 +28,14 @@ module.exports = async function (db) {
                 weaponId: 4,
                 firstFavouritePizzaId: 4,
                 secondFavouritePizzaId: 1
-            })       
+            })  ,
+            db.turtles.create({
+                name: 'Kiril',
+                color: 'red',
+                weaponId: 4,
+                firstFavouritePizzaId: 4,
+                secondFavouritePizzaId: 1
+            })
         ]
     )
     .then(() => {

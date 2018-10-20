@@ -53,8 +53,29 @@ async function Labka() {
     });
     result.forEach((val) => {
         console.log(val.firstFavouritePizza.name);
+    });
+    console.log();
+
+    //6
+    console.log('*****************6*****************');
+    console.log('pizza where dps >100');
+    result = await db.weapons.findAll({
+        where: {
+            $or: [
+                {
+                    dps:
+                        {
+                            $gt: 100
+                        }
+                }
+            ]
+        }
+    })
+    result.forEach((val) => {
+        console.log(val.name);
     })
     console.log();
+
 
     //7
     console.log('*****************7*****************');
